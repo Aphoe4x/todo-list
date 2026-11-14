@@ -15,7 +15,7 @@ A simple todo list application with a PHP/MySQL backend and vanilla JavaScript f
 
 ```
 ai-todo-list/
-├── index.php          # Main frontend (Tasks, Calendar, Board, Timer tabs)
+├── index.html         # Main frontend (Tasks, Calendar, Board, Timer tabs)
 ├── css/
 │   └── style.css      # All styles (light/dark theme, responsive)
 ├── js/

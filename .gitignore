@@ -11,3 +11,6 @@ Desktop.ini
 
 # OS
 .DS_Store
+
+# Local Netlify folder
+.netlify
