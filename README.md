@@ -82,8 +82,9 @@ todo-list/
         └── deploy.yml  # Push to master → deploy to Netlify
 ```
 
-## Legacy files
+## Notes
 
-The `api/`, `db/`, `Dockerfile` and `render.yaml` files are leftovers from an
-earlier attempt to run this app on a PHP + PostgreSQL backend. The frontend does
-not call them — the app is fully client-side — so they are not deployed.
+This app is fully client-side. An earlier PHP + PostgreSQL backend (`api/`, `db/`,
+`Dockerfile`, `render.yaml`) was removed because the frontend never called it — it
+was dead weight and the cause of failed deploys on Render.
+

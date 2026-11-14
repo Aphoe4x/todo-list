@@ -1,7 +1,7 @@
 name: Deploy to Netlify
 
 # Every push to master publishes the app. Only the static files are shipped —
-# the legacy api/ and db/ folders are not part of the site.
+# there is no backend and no build step.
 
 on:
   push:

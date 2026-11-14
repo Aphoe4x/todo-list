@@ -2,218 +2,151 @@
 
 ## Project Overview
 
-A simple todo list application with a PHP/MySQL backend and vanilla JavaScript frontend.
+A single-page todo list app — tasks, calendar, kanban board and a Pomodoro timer —
+built with vanilla JavaScript. It is **fully client-side**: there is no backend,
+no database and no build step. All data lives in the browser's `localStorage`.
+
+- **Live site:** <https://todo-list-afolabi.netlify.app>
+- **Repository:** <https://github.com/Aphoe4x/todo-list>
+- **Default branch:** `master` — every push deploys to production
 
 ## Tech Stack
 
-- **Frontend:** Vanilla JavaScript, CSS3, Font Awesome 6.4
-- **Backend:** PHP 8.2
-- **Database:** PostgreSQL (Render) / MySQL (local XAMPP)
-- **Server:** Apache 2.4 (XAMPP)
+- **Frontend:** Vanilla JavaScript (ES6), HTML5, CSS3 with custom properties
+- **Icons:** Font Awesome 6.4 (CDN)
+- **Hosting:** Netlify (static)
+- **CI/CD:** GitHub Actions → Netlify
+
+No frameworks, no bundler, no package dependencies. Do not introduce them.
 
 ## File Structure
 
 ```
 todo-list/
-├── index.html         # Main frontend (Tasks, Calendar, Board, Timer tabs)
+├── index.html                  # App shell: Tasks, Calendar, Board, Timer tabs
 ├── css/
-│   └── style.css      # All styles (light/dark theme, responsive)
+│   └── style.css               # All styles (light/dark themes, responsive)
 ├── js/
-│   └── app.js         # All frontend logic
-├── api/
-│   ├── config.php     # PDO connection (PostgreSQL) + auto-migration + CORS headers
-│   ├── addTodo.php    # POST - Create a new todo
-│   ├── getTodos.php   # GET - Fetch all todos
-│   ├── updateTodo.php # POST - Update a todo (text, completed, priority, etc.)
-│   └── deleteTodo.php # POST - Delete a todo
-└── AGENTS.md          # This file
+│   └── app.js                  # All application logic
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # Push to master → deploy to Netlify
+├── README.md                   # Human-facing docs
+└── AGENTS.md                   # This file
 ```
 
-## Database Schema
+Anything else at the root (`portfolio-clone/`, `portfolio-rs/`, `portfolio-static/`,
+`setup-portfolio.bat`, `package-lock.json`) is unrelated scratch work and is **not**
+part of this app. Do not deploy or refactor it.
 
-```sql
-CREATE TABLE IF NOT EXISTS todos (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    priority VARCHAR(20) DEFAULT 'medium',
-    "dueDate" DATE,
-    status VARCHAR(20) DEFAULT 'backlog',
-    "timerDate" DATE,
-    completed SMALLINT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
+## Data Model
 
-## API Endpoints
+Everything is stored in `localStorage` under three keys:
 
-### GET `api/getTodos.php`
-Returns all todos ordered by `created_at DESC`.
+| Key | Contents |
+|---|---|
+| `todos` | Array of task objects (see below) |
+| `theme` | `"light"` or `"dark"` |
+| `pomodoroStats` | `{ sessions, totalMinutes }` |
 
-**Response:**
-```json
+A task object:
+
+```js
 {
-  "todos": [
-    {
-      "id": 1,
-      "text": "Task name",
-      "description": "",
-      "priority": "medium",
-      "completed": false,
-      "dueDate": null,
-      "status": "backlog",
-      "timerDate": null,
-      "createdAt": "2026-09-29 04:28:56"
-    }
+  id: 1700000000000,        // Date.now() — number, not a string
+  text: "Task name",
+  priority: "low" | "medium" | "high",
+  completed: false,         // boolean
+  dueDate: "2026-12-31",    // "YYYY-MM-DD" or null
+  subtasks: [               // nested, one level deep
+    { id: 1700000000001, text: "Step one", completed: false }
   ],
-  "success": true
+  status: "backlog" | "progress" | "done",
+  createdAt: "2026-11-14T18:00:00.000Z"   // ISO string
 }
 ```
 
-### POST `api/addTodo.php`
-Creates a new todo.
+State is held in a module-level `todos` array in `js/app.js` and written back with
+`saveTodos()`. There is no server sync — a task added on one device is invisible
+on another.
 
-**Body:**
-```json
-{
-  "text": "Task name",
-  "priority": "high",
-  "dueDate": "2026-12-31",
-  "status": "backlog",
-  "timerDate": null,
-  "description": ""
-}
+## Features
+
+- Add, edit, complete and delete tasks; priorities and due dates
+- Subtasks (add, toggle, delete)
+- Filters: all / active / completed, plus filter-by-priority
+- Calendar tab — tasks grouped by `dueDate`
+- Board tab — drag and drop between backlog / progress / done (updates `status`)
+- Timer tab — Pomodoro with session statistics
+- Dark mode, persisted via `localStorage`
+- Responsive down to phone widths
+
+## Local Development
+
+There is nothing to build or install.
+
+**XAMPP:** the project lives at `C:\xampp\htdocs\todo-list`. Start Apache, then open
+<http://localhost/todo-list/>.
+
+**Or** just open `index.html` directly in a browser.
+
+After editing, hard-refresh (`Ctrl+Shift+R`) — `index.html` links its assets with
+`?v=2` query strings, so bump the version when changing `style.css` or `app.js`:
+
+```html
+<link rel="stylesheet" href="css/style.css?v=3">
+<script src="js/app.js?v=3"></script>
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "id": 1,
-  "text": "Task name",
-  "priority": "high",
-  "dueDate": "2026-12-31",
-  "status": "backlog",
-  "timerDate": null
-}
+## Deployment
+
+Netlify site: `todo-list-afolabi` (`https://todo-list-afolabi.netlify.app`).
+
+`.github/workflows/deploy.yml` copies `index.html`, `css/` and `js/` into `dist/` and
+runs `netlify deploy --prod`. It needs two repository secrets, already configured:
+
+- `NETLIFY_AUTH_TOKEN`
+- `NETLIFY_SITE_ID`
+
+Manual deploy from the project root:
+
+```bash
+netlify deploy --prod --dir=dist
 ```
 
-### POST `api/updateTodo.php`
-Updates an existing todo.
-
-**Body:**
-```json
-{
-  "id": 1,
-  "text": "Updated task",
-  "priority": "low",
-  "dueDate": null,
-  "status": "done",
-  "timerDate": null,
-  "completed": 1
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "id": 1,
-  "message": "Todo updated successfully"
-}
-```
-
-### POST `api/deleteTodo.php`
-Deletes a todo.
-
-**Body:**
-```json
-{
-  "id": 1
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "id": 1,
-  "message": "Todo deleted successfully"
-}
-```
+The local folder is linked to the site via `.netlify/state.json` (git-ignored).
 
 ## Testing Rules
 
-After creating or modifying any API endpoint, always run these tests:
+There is no API to test. After any change, verify manually (or with a headless
+browser) that:
 
-### 1. Create a todo
+1. The page loads with **no console errors** and no failed requests
+2. A task can be added, and it still appears after a page reload
+3. Toggling complete, deleting a task, and adding a subtask all persist
+4. The Calendar, Board and Timer tabs still work
+5. Dark mode toggle survives a reload
+6. No horizontal overflow at 1440px, 390px and 320px widths
+
+Quick sanity check that the site is serving:
+
 ```powershell
-echo '{"text":"Test task","priority":"high"}' | curl.exe -s -X POST http://localhost/todo-list/api/addTodo.php -H "Content-Type: application/json" -d "@-"
-```
-Expected: `{"success":true,"id":1,...}`
-
-### 2. Get all todos
-```powershell
-curl.exe -s http://localhost/todo-list/api/getTodos.php
-```
-Expected: `{"todos":[...],"success":true}`
-
-### 3. Update a todo
-```powershell
-echo '{"id":1,"text":"Updated task","completed":1}' | curl.exe -s -X POST http://localhost/todo-list/api/updateTodo.php -H "Content-Type: application/json" -d "@-"
-```
-Expected: `{"success":true,"id":1,"message":"Todo updated successfully"}`
-
-### 4. Delete a todo
-```powershell
-echo '{"id":1}' | curl.exe -s -X POST http://localhost/todo-list/api/deleteTodo.php -H "Content-Type: application/json" -d "@-"
-```
-Expected: `{"success":true,"id":1,"message":"Todo deleted successfully"}`
-
-### 5. Validate
-- Check HTTP status code is 200
-- Check response has `"success": true`
-- Verify data changed by calling `getTodos.php` again
-
-## Common Issues
-
-| Issue | Solution |
-|-------|----------|
-| JSON body truncated (Content-Length too small) | Use `echo` pipe in PowerShell, not `-d` directly |
-| Database table missing columns | Run the schema SQL above |
-| CORS errors | Check headers in `api/config.php` |
-| `Undefined table: todos` | Auto-migration runs on first request — wait and retry |
-| `Connection refused` | Database not linked in Render — check Blueprint envVars |
-| `mysqli not found` | Use PDO/pgsql, not MySQLi (Render uses PostgreSQL) |
-| `Unknown column` errors | Database schema out of sync with API — recreate table |
-
-## Production Deployment
-
-### Vercel (Frontend Only)
-- Vercel does NOT support PHP — the API must be rewritten as serverless functions (Node.js)
-- Use a hosted MySQL database: PlanetScale, Supabase, or Railway
-- Set database credentials as environment variables in Vercel dashboard
-- Build command: `none` (static site)
-- Output directory: `root`
-
-### Alternative Hosting (PHP + MySQL)
-- **Railway** — supports PHP + MySQL natively
-- **DigitalOcean** — $4/month droplet with LAMP stack
-- **Shared hosting** — cPanel-based hosting supports PHP/MySQL
-
-### Environment Variables
-```env
-DB_HOST=your-db-host
-DB_USER=your-db-user
-DB_PASS=your-db-password
-DB_NAME=your-db-name
+curl.exe -s -o NUL -w "%{http_code}" http://localhost/todo-list/
 ```
 
 ## Development Guidelines
 
-- Keep frontend vanilla JavaScript — no frameworks
-- Use prepared statements for all database queries
-- Validate all inputs before database operations
-- Return consistent JSON response format: `{"success": bool, ...}`
-- Test all endpoints after any API change
-- Never commit database credentials to Git
+- Keep it vanilla — no frameworks, no npm dependencies, no build step
+- Keep `index.html` valid HTML (it is not a PHP file; it must stay `.html` so static hosts serve it)
+- Persist every mutation through `saveTodos()` so a refresh never loses data
+- Escape user text before inserting into `innerHTML`
+- Keep the light/dark themes in sync — use the existing CSS custom properties
+- Test at desktop and phone widths before pushing
+
+## History
+
+This repo previously contained an unused PHP/PostgreSQL backend (`api/`, `db/`,
+`Dockerfile`, `render.yaml`) intended for cross-device sync. The frontend never
+called it, and it caused failed deployments on Render. It was removed. If sync is
+ever wanted, build it properly (e.g. Netlify Functions + a hosted Postgres) and wire
+the frontend to it — do not resurrect those files.
