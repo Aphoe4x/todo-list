@@ -14,7 +14,7 @@ A simple todo list application with a PHP/MySQL backend and vanilla JavaScript f
 ## File Structure
 
 ```
-ai-todo-list/
+todo-list/
 ├── index.html         # Main frontend (Tasks, Calendar, Board, Timer tabs)
 ├── css/
 │   └── style.css      # All styles (light/dark theme, responsive)
@@ -148,25 +148,25 @@ After creating or modifying any API endpoint, always run these tests:
 
 ### 1. Create a todo
 ```powershell
-echo '{"text":"Test task","priority":"high"}' | curl.exe -s -X POST http://localhost/ai-todo-list/api/addTodo.php -H "Content-Type: application/json" -d "@-"
+echo '{"text":"Test task","priority":"high"}' | curl.exe -s -X POST http://localhost/todo-list/api/addTodo.php -H "Content-Type: application/json" -d "@-"
 ```
 Expected: `{"success":true,"id":1,...}`
 
 ### 2. Get all todos
 ```powershell
-curl.exe -s http://localhost/ai-todo-list/api/getTodos.php
+curl.exe -s http://localhost/todo-list/api/getTodos.php
 ```
 Expected: `{"todos":[...],"success":true}`
 
 ### 3. Update a todo
 ```powershell
-echo '{"id":1,"text":"Updated task","completed":1}' | curl.exe -s -X POST http://localhost/ai-todo-list/api/updateTodo.php -H "Content-Type: application/json" -d "@-"
+echo '{"id":1,"text":"Updated task","completed":1}' | curl.exe -s -X POST http://localhost/todo-list/api/updateTodo.php -H "Content-Type: application/json" -d "@-"
 ```
 Expected: `{"success":true,"id":1,"message":"Todo updated successfully"}`
 
 ### 4. Delete a todo
 ```powershell
-echo '{"id":1}' | curl.exe -s -X POST http://localhost/ai-todo-list/api/deleteTodo.php -H "Content-Type: application/json" -d "@-"
+echo '{"id":1}' | curl.exe -s -X POST http://localhost/todo-list/api/deleteTodo.php -H "Content-Type: application/json" -d "@-"
 ```
 Expected: `{"success":true,"id":1,"message":"Todo deleted successfully"}`
 
