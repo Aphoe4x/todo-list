@@ -138,23 +138,22 @@ body {
     border-color: var(--accent);
 }
 
-/* Nav tabs - a clean top bar: an accent dot and underline mark the active tab */
+/* Nav tabs — pills, the active one filled */
 .nav-tabs {
     display: flex;
-    gap: 1.75rem;
-    border-bottom: 1px solid var(--line);
+    align-items: center;
+    gap: 0.25rem;
     margin: 0 0 2rem;
 }
 
 .nav-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.75rem 0;
-    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     color: var(--text-soft);
-    border-bottom: 2px solid transparent;
-    transition: color 0.12s ease, border-color 0.12s ease;
+    font-weight: 500;
+    transition: color 0.12s ease, background 0.12s ease;
 }
 
 .nav-link:hover {
@@ -162,9 +161,9 @@ body {
 }
 
 .nav-link.active {
-    color: var(--text);
+    color: #fff;
     font-weight: 600;
-    border-bottom-color: var(--accent);
+    background: var(--accent);
 }
 
 /* Tab content */
@@ -237,13 +236,13 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Buttons */
+/* Buttons - solid, present fills */
 .btn-add {
     background: var(--accent);
     color: #fff;
     font-weight: 600;
     border: none;
-    padding: 0.625rem 1.4rem;
+    padding: 0.7rem 1.6rem;
     border-radius: var(--radius-sm);
     font-size: 0.95rem;
     cursor: pointer;
@@ -259,11 +258,11 @@ body {
 .btn-warning,
 .btn-danger,
 .btn-nav {
-    padding: 0.625rem 1rem;
+    padding: 0.6rem 1.05rem;
     border-radius: var(--radius-sm);
     border: 1px solid transparent;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.9rem;
     transition: all 0.15s ease;
 }
@@ -278,20 +277,18 @@ body {
 }
 
 .btn-warning {
-    background: var(--warn-soft);
-    color: var(--warn);
-    border-color: var(--warn);
+    background: var(--warn);
+    color: #fff;
 }
 
 .btn-warning:hover {
-    background: #a84800;
+    background: #b4680b;
     color: #fff;
 }
 
 .btn-danger {
-    background: var(--bad-soft);
-    color: var(--bad);
-    border-color: var(--bad);
+    background: var(--bad);
+    color: #fff;
 }
 
 .btn-danger:hover {
@@ -302,7 +299,7 @@ body {
 .btn-nav {
     background: var(--surface);
     border-color: var(--line);
-    color: var(--text-soft);
+    color: var(--text);
 }
 
 .btn-nav:hover {
