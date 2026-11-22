@@ -166,16 +166,6 @@ body {
     border-bottom-color: var(--accent);
 }
 
-.nav-link.active::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    vertical-align: middle;
-}
-
 /* Tab content */
 .tab-content {
     display: block;
