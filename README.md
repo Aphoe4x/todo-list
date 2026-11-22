@@ -1,5 +1,7 @@
 # Todo List
 
+![Todo List icon](favicon.svg)
+
 A clean, fast todo app with tasks, a calendar, a kanban board and a Pomodoro timer.
 
 **🔗 Live site: <https://todo-list-afolabi.netlify.app>**
@@ -73,6 +75,7 @@ netlify deploy --prod --dir=dist
 ```
 todo-list/
 ├── index.html          # The whole app shell (Tasks, Calendar, Board, Timer)
+├── favicon.svg         # App icon, used by the site and the README
 ├── css/
 │   └── style.css       # All styles, light + dark themes, responsive rules
 ├── js/

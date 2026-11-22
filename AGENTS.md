@@ -24,6 +24,7 @@ No frameworks, no bundler, no package dependencies. Do not introduce them.
 ```
 todo-list/
 ├── index.html                  # App shell: Tasks, Calendar, Board, Timer tabs
+├── favicon.svg                 # App icon, referenced by index.html and README.md
 ├── css/
 │   └── style.css               # All styles (light/dark themes, responsive)
 ├── js/
