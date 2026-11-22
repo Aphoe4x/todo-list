@@ -138,26 +138,21 @@ body {
     border-color: var(--accent);
 }
 
-/* Nav tabs — a segmented control */
+/* Nav tabs — pills, the active one filled */
 .nav-tabs {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    gap: 0.3rem;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 0.35rem;
-    margin: 0 auto 2rem;
-    max-width: 100%;
+    margin-bottom: 2rem;
 }
 
 .nav-link {
-    padding: 0.4rem 1.1rem;
-    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.95rem;
+    border-radius: 7px;
     color: var(--text-soft);
     font-weight: 500;
+    margin-right: 0.1rem;
     transition: color 0.12s ease, background 0.12s ease;
 }
 
@@ -168,6 +163,7 @@ body {
 .nav-link.active {
     background: var(--accent);
     color: #fff;
+    font-weight: 600;
 }
 
 /* Tab content */
@@ -774,7 +770,7 @@ input[type="checkbox"] {
     }
 
     .nav-tabs {
-        padding: 0.25rem;
+        margin-bottom: 1.75rem;
     }
 
     .stats-grid {
