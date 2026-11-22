@@ -8,18 +8,24 @@
     <meta http-equiv="Expires" content="0">
     <title>Todo List</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
     <div class="main-container">
         <div class="content-wrapper">
             <!-- Header -->
             <div class="header">
-                <h1><i class="fas fa-check-circle"></i> Todo List</h1>
-                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">
-                    <i class="fas fa-moon"></i>
-                </button>
+                <span class="header-brand">
+                    <span class="header-mark" aria-hidden="true"><i class="fas fa-check" style="color: var(--accent);"></i></span>
+                    Todo List
+                </span>
+                <div class="header-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Tabs -->
@@ -56,9 +62,9 @@
                     </div>
 
                     <!-- Filter Info -->
-                    <div id="filterInfo" style="margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px; border-left: 3px solid var(--accent); display: none;">
-                        <span id="filterText" style="color: var(--text-primary);"></span>
-                        <button class="btn-primary" style="margin-left: 1rem; padding: 0.4rem 0.75rem; font-size: 0.85rem;" onclick="clearFilter()">Clear Filter</button>
+                    <div id="filterInfo" class="filter-info" style="display: none;">
+                        <span id="filterText" class="filter-text"></span>
+                        <button class="btn-primary" onclick="clearFilter()">Clear Filter</button>
                     </div>
 
                     <div id="todosList"></div>
