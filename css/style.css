@@ -86,8 +86,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--line);
 }
 
@@ -138,22 +138,23 @@ body {
     border-color: var(--accent);
 }
 
-/* Nav tabs — pills, the active one filled */
+/* Nav tabs - a clean top bar: an accent dot and underline mark the active tab */
 .nav-tabs {
     display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
+    gap: 1.75rem;
+    border-bottom: 1px solid var(--line);
+    margin: 0 0 2rem;
 }
 
 .nav-link {
     display: inline-flex;
     align-items: center;
-    padding: 0.45rem 0.95rem;
-    border-radius: 7px;
-    color: var(--text-soft);
+    gap: 0.3rem;
+    padding: 0.75rem 0;
     font-weight: 500;
-    margin-right: 0.1rem;
-    transition: color 0.12s ease, background 0.12s ease;
+    color: var(--text-faint);
+    border-bottom: 2px solid transparent;
+    transition: color 0.12s ease, border-color 0.12s ease;
 }
 
 .nav-link:hover {
@@ -161,9 +162,18 @@ body {
 }
 
 .nav-link.active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+}
+
+.nav-link.active::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
     background: var(--accent);
-    color: #fff;
-    font-weight: 600;
+    vertical-align: middle;
 }
 
 /* Tab content */
@@ -317,8 +327,8 @@ body {
     gap: 0.75rem;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 1rem;
+    border-radius: 10px;
+    padding: 1.25rem;
     margin-bottom: 0.5rem;
     transition: background 0.15s ease, border-color 0.15s ease;
     cursor: move;
@@ -461,7 +471,7 @@ body {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 1rem;
+    padding: 0.875rem 1.25rem;
     text-align: center;
     transition: border-color 0.15s ease, transform 0.1s ease;
     cursor: pointer;
@@ -477,7 +487,7 @@ body {
 
 .stat-value {
     font-family: var(--font-mono);
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--text);
 }
@@ -770,6 +780,7 @@ input[type="checkbox"] {
     }
 
     .nav-tabs {
+        gap: 1.25rem;
         margin-bottom: 1.75rem;
     }
 
