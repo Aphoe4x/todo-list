@@ -1,109 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Todo List</title>
+    <meta name="description" content="A calm, fast todo list with a calendar, a board and a focus timer.">
+    <title>Todo</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=10">
+    <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/style.css?v=16">
 </head>
 <body>
+    <!-- Icon sprite: every icon in the app comes from here, so there is no CDN request -->
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+        <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.3A8.5 8.5 0 1 1 9.7 3.5a6.6 6.6 0 0 0 10.8 10.8Z"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+        <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.1v13.8a1 1 0 0 0 1.5.9l11-6.9a1 1 0 0 0 0-1.7l-11-6.9A1 1 0 0 0 8 5.1Z"/></symbol>
+        <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="6" y="4" width="4.5" height="16" rx="1.3"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.3"/></symbol>
+        <symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3.2-6.9"/><path d="M3 4v5h5"/></symbol>
+        <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18 9 12l6-6"/></symbol>
+        <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+        <symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1Z"/></symbol>
+        <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></symbol>
+        <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+        <symbol id="i-board" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="10" rx="1.5"/><rect x="17" y="4" width="4" height="13" rx="1.5"/></symbol>
+        <symbol id="i-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></symbol>
+        <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V4s-1 1-4 1-5-2-8-2-4 1-4 1Z"/><path d="M4 22v-7"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    </svg>
+
+    <header class="appbar">
+        <div class="appbar-inner">
+            <a class="brand" href="#" aria-label="Todo home">
+                <span class="brand-mark"><svg class="icon"><use href="#i-check"/></svg></span>
+                <span class="brand-name">Todo</span>
+            </a>
+            <div class="appbar-actions">
+                <span class="date-chip">
+                    <svg class="icon icon-sm"><use href="#i-calendar"/></svg>
+                    <span id="headerDate">Today</span>
+                </span>
+                <button class="icon-btn theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+                    <svg class="icon icon-moon"><use href="#i-moon"/></svg>
+                    <svg class="icon icon-sun"><use href="#i-sun"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
     <div class="main-container">
         <div class="content-wrapper">
-            <!-- Header -->
-            <div class="header">
-                <span class="header-brand">
-                    <span class="header-mark" aria-hidden="true"><i class="fas fa-check" style="color: var(--accent);"></i></span>
-                    Todo List
-                </span>
-                <div class="header-actions">
-                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
+            <div class="page-head">
+                <p class="eyebrow" id="pageEyebrow">Workspace</p>
+                <h1 class="page-title" id="pageTitle">Tasks</h1>
+                <p class="page-sub" id="pageSubtitle">A calm place for everything you need to do.</p>
             </div>
 
-            <!-- Tabs -->
+            <!-- Tabs: a segmented control, the active pill filled with ink -->
             <ul class="nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <button class="nav-link active" data-tab="tasks-tab">Tasks</button>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-tab="tasks-tab" role="tab" aria-selected="true">
+                        <svg class="icon icon-sm"><use href="#i-list"/></svg><span>Tasks</span>
+                    </button>
                 </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-tab="calendar-tab">Calendar</button>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-tab="calendar-tab" role="tab" aria-selected="false">
+                        <svg class="icon icon-sm"><use href="#i-calendar"/></svg><span>Calendar</span>
+                    </button>
                 </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-tab="board-tab">Board</button>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-tab="board-tab" role="tab" aria-selected="false">
+                        <svg class="icon icon-sm"><use href="#i-board"/></svg><span>Board</span>
+                    </button>
                 </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-tab="timer-tab">Timer</button>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-tab="timer-tab" role="tab" aria-selected="false">
+                        <svg class="icon icon-sm"><use href="#i-timer"/></svg><span>Timer</span>
+                    </button>
                 </li>
             </ul>
 
-            <!-- Tab Content -->
             <div class="tab-content">
                 <!-- Tasks Tab -->
                 <div class="tab-pane active" id="tasks-tab">
-                    <div class="input-section">
-                        <div class="input-group">
-                            <input type="text" id="todoInput" class="form-control" placeholder="What needs to be done?">
-                            <input type="date" id="dueDateInput" class="form-control">
-                            <select id="prioritySelect" class="form-select">
-                                <option value="low">Low</option>
-                                <option value="medium" selected>Medium</option>
-                                <option value="high">High</option>
-                            </select>
-                            <button class="btn-add" onclick="addTodo()">Add Task</button>
+                    <section class="panel composer">
+                        <div class="composer-main">
+                            <input type="text" id="todoInput" class="composer-input" placeholder="What needs to be done?">
+                            <button class="btn-add" onclick="addTodo()">
+                                <svg class="icon icon-sm"><use href="#i-plus"/></svg>
+                                <span>Add task</span>
+                            </button>
                         </div>
-                    </div>
+                        <div class="composer-meta">
+                            <label class="field">
+                                <span class="field-label">Due date</span>
+                                <input type="date" id="dueDateInput" class="form-control">
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Priority</span>
+                                <select id="prioritySelect" class="form-select">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </label>
+                        </div>
+                    </section>
 
-                    <!-- Filter Info -->
                     <div id="filterInfo" class="filter-info" style="display: none;">
-                        <span id="filterText" class="filter-text"></span>
-                        <button class="btn-primary" onclick="clearFilter()">Clear Filter</button>
+                        <span class="filter-text"><svg class="icon icon-sm"><use href="#i-flag"/></svg><span id="filterText"></span></span>
+                        <button class="btn-ghost btn-sm" onclick="clearFilter()">
+                            Clear filter
+                            <svg class="icon icon-sm"><use href="#i-x"/></svg>
+                        </button>
                     </div>
 
-                    <div id="todosList"></div>
+                    <div class="progress-row">
+                        <div class="progress-track" role="presentation">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-label" id="progressLabel">0 of 0 done</span>
+                    </div>
+
+                    <div id="todosList" class="todos-list"></div>
                     <div id="emptyMessage" class="empty-state">
-                        <i class="fas fa-inbox"></i>
-                        <p>No tasks yet. Add one to get started!</p>
+                        <span class="empty-mark"><svg class="icon"><use href="#i-inbox"/></svg></span>
+                        <p class="empty-title" id="emptyText">No tasks yet. Add your first one above.</p>
+                        <p class="empty-sub">Everything you add is saved in this browser.</p>
                     </div>
 
                     <div class="stats-grid">
-                        <div class="stat-card" onclick="filterByStatus('all')" style="cursor: pointer;">
-                            <div class="stat-value" id="totalCount">0</div>
-                            <div class="stat-label">All Tasks</div>
-                        </div>
-                        <div class="stat-card" onclick="filterByStatus('completed')" style="cursor: pointer;">
-                            <div class="stat-value" id="completedCount">0</div>
-                            <div class="stat-label">Finished</div>
-                        </div>
-                        <div class="stat-card" onclick="filterByStatus('pending')" style="cursor: pointer;">
-                            <div class="stat-value" id="pendingCount">0</div>
-                            <div class="stat-label">To Do</div>
-                        </div>
-                        <div class="stat-card" onclick="filterByStatus('overdue')" style="cursor: pointer;">
-                            <div class="stat-value" id="overdueCount">0</div>
-                            <div class="stat-label">Overdue</div>
-                        </div>
+                        <button class="stat-card" data-stat="all" onclick="filterByStatus('all')">
+                            <span class="stat-value" id="totalCount">0</span>
+                            <span class="stat-label">All tasks</span>
+                        </button>
+                        <button class="stat-card" data-stat="completed" onclick="filterByStatus('completed')">
+                            <span class="stat-value" id="completedCount">0</span>
+                            <span class="stat-label">Finished</span>
+                        </button>
+                        <button class="stat-card" data-stat="pending" onclick="filterByStatus('pending')">
+                            <span class="stat-value" id="pendingCount">0</span>
+                            <span class="stat-label">To do</span>
+                        </button>
+                        <button class="stat-card" data-stat="overdue" onclick="filterByStatus('overdue')">
+                            <span class="stat-value" id="overdueCount">0</span>
+                            <span class="stat-label">Overdue</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Calendar Tab -->
                 <div class="tab-pane" id="calendar-tab">
-                    <div class="calendar">
+                    <section class="panel calendar">
                         <div class="calendar-header">
-                            <button class="btn-nav" onclick="previousMonth()">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <span id="monthYear"></span>
-                            <button class="btn-nav" onclick="nextMonth()">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
+                            <span class="calendar-title" id="monthYear"></span>
+                            <div class="calendar-nav">
+                                <button class="btn-nav" onclick="previousMonth()" aria-label="Previous month">
+                                    <svg class="icon icon-sm"><use href="#i-chevron-left"/></svg>
+                                </button>
+                                <button class="btn-nav" onclick="nextMonth()" aria-label="Next month">
+                                    <svg class="icon icon-sm"><use href="#i-chevron-right"/></svg>
+                                </button>
+                            </div>
                         </div>
                         <div class="calendar-weekdays">
                             <div class="weekday">Sun</div>
@@ -115,105 +180,133 @@
                             <div class="weekday">Sat</div>
                         </div>
                         <div class="calendar-days" id="calendarDays"></div>
+                    </section>
+
+                    <div class="section-head">
+                        <h2 class="section-title">Tasks for <span class="section-accent" id="selectedDateDisplay">Today</span></h2>
                     </div>
-                    <h2>Tasks for <span id="selectedDateDisplay">Today</span></h2>
-                    <div id="calendarTasksList"></div>
+                    <div id="calendarTasksList" class="todos-list"></div>
                 </div>
 
                 <!-- Board Tab -->
                 <div class="tab-pane" id="board-tab">
                     <div class="kanban-board">
-                        <div class="kanban-column">
-                            <div class="kanban-title">📋 To Do</div>
+                        <section class="kanban-column">
+                            <div class="kanban-title">
+                                <span class="kanban-label"><span class="dot dot-todo"></span>To do</span>
+                                <span class="kanban-count" id="kanbanCountBacklog">0</span>
+                            </div>
                             <div class="kanban-tasks" id="kanban-backlog" ondrop="handleKanbanDrop(event)" ondragover="handleDragOver(event)"></div>
-                        </div>
-                        <div class="kanban-column">
-                            <div class="kanban-title">⏳ Working</div>
+                        </section>
+                        <section class="kanban-column">
+                            <div class="kanban-title">
+                                <span class="kanban-label"><span class="dot dot-working"></span>Working</span>
+                                <span class="kanban-count" id="kanbanCountInprogress">0</span>
+                            </div>
                             <div class="kanban-tasks" id="kanban-inprogress" ondrop="handleKanbanDrop(event)" ondragover="handleDragOver(event)"></div>
-                        </div>
-                        <div class="kanban-column">
-                            <div class="kanban-title">✅ Finished</div>
+                        </section>
+                        <section class="kanban-column">
+                            <div class="kanban-title">
+                                <span class="kanban-label"><span class="dot dot-done"></span>Finished</span>
+                                <span class="kanban-count" id="kanbanCountDone">0</span>
+                            </div>
                             <div class="kanban-tasks" id="kanban-done" ondrop="handleKanbanDrop(event)" ondragover="handleDragOver(event)"></div>
-                        </div>
+                        </section>
                     </div>
                 </div>
 
                 <!-- Timer Tab -->
                 <div class="tab-pane" id="timer-tab">
-                    <div class="timer-display">
-                        <div class="timer-circle">
-                            <span id="timerDisplay">25:00</span>
+                    <section class="panel timer-panel">
+                        <div class="timer-display">
+                            <div class="timer-circle" id="timerCircle" role="button" tabindex="0"
+                                 title="Click the time to adjust the duration"
+                                 aria-label="Timer time. Click to adjust the duration"
+                                 onclick="focusTimerInput('focusMinutes')">
+                                <span id="timerDisplay">25:00</span>
+                            </div>
+                            <div class="timer-status" id="timerStatus">Focus time. Get work done</div>
+                            <div class="timer-controls">
+                                <button class="btn-primary" id="startBtn" onclick="startTimer()">
+                                    <svg class="icon icon-sm"><use href="#i-play"/></svg><span>Start</span>
+                                </button>
+                                <button class="btn-warning" id="pauseBtn" onclick="pauseTimer()" style="display:none;">
+                                    <svg class="icon icon-sm"><use href="#i-pause"/></svg><span>Pause</span>
+                                </button>
+                                <button class="btn-danger" onclick="resetTimer()">
+                                    <svg class="icon icon-sm"><use href="#i-reset"/></svg><span>Reset</span>
+                                </button>
+                            </div>
                         </div>
-                        <div class="timer-status">
-                            <span id="timerStatus">Focus Time - Get work done!</span>
-                        </div>
-                        <div class="timer-controls">
-                            <button class="btn-primary" id="startBtn" onclick="startTimer()">
-                                <i class="fas fa-play"></i> Start
-                            </button>
-                            <button class="btn-warning" id="pauseBtn" onclick="pauseTimer()" style="display:none;">
-                                <i class="fas fa-pause"></i> Pause
-                            </button>
-                            <button class="btn-danger" onclick="resetTimer()">
-                                <i class="fas fa-redo"></i> Reset
-                            </button>
-                        </div>
-                    </div>
+                    </section>
 
-                    <div class="input-section">
-                        <label>Timer Settings</label>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
-                            <div style="flex: 1; min-width: 150px;">
-                                <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">Focus Minutes</label>
+                    <section class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title">Settings</h2>
+                            <span class="panel-note">Your rhythm</span>
+                        </div>
+                        <div class="field-row">
+                            <label class="field">
+                                <span class="field-label">Focus minutes</span>
                                 <input type="number" id="focusMinutes" class="form-control" value="25" min="1" max="120">
-                            </div>
-                            <div style="flex: 1; min-width: 150px;">
-                                <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">Rest Minutes</label>
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Rest minutes</span>
                                 <input type="number" id="restMinutes" class="form-control" value="5" min="1" max="60">
-                            </div>
+                            </label>
                         </div>
-                    </div>
+                    </section>
 
-                    <div class="input-section">
-                        <label>Task Details</label>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <div style="flex: 1; min-width: 200px;">
-                                <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">Task Name</label>
+                    <section class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title">Task details</h2>
+                            <span class="panel-note">Optional</span>
+                        </div>
+                        <div class="field-row">
+                            <label class="field">
+                                <span class="field-label">Task name</span>
                                 <input type="text" id="timerTaskInput" class="form-control" placeholder="What are you working on?">
-                            </div>
-                            <div style="flex: 1; min-width: 200px;">
-                                <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">Target Date</label>
+                            </label>
+                            <label class="field">
+                                <span class="field-label">Target date</span>
                                 <input type="date" id="timerDateInput" class="form-control">
-                            </div>
+                            </label>
                         </div>
-                    </div>
+                    </section>
 
-                    <div id="pomodoroStats" class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value" id="sessionsCount">0</div>
-                            <div class="stat-label">Sessions Done</div>
+                    <div id="pomodoroStats" class="stats-grid stats-grid-2">
+                        <div class="stat-card stat-card-static">
+                            <span class="stat-value" id="sessionsCount">0</span>
+                            <span class="stat-label">Sessions done</span>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalMinutes">0</div>
-                            <div class="stat-label">Minutes Focused</div>
+                        <div class="stat-card stat-card-static">
+                            <span class="stat-value" id="totalMinutes">0</span>
+                            <span class="stat-label">Minutes focused</span>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <footer class="app-footer">
+                <span>Saved locally in this browser</span>
+                <span class="footer-mark">Todo</span>
+            </footer>
         </div>
     </div>
 
     <!-- Confirmation Modal -->
     <div id="confirmModal" class="modal-overlay" style="display: none;">
-        <div class="modal">
-            <p>Are you sure you're done with this task?</p>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+            <span class="modal-mark"><svg class="icon"><use href="#i-check"/></svg></span>
+            <h2 class="modal-title" id="confirmTitle">Finish this task?</h2>
+            <p>It will move to your finished list and count toward your progress.</p>
             <div class="modal-actions">
-                <button class="btn-danger" onclick="cancelConfirm()">Cancel</button>
-                <button class="btn-primary" onclick="confirmDone()">Confirm</button>
+                <button class="btn-ghost" onclick="cancelConfirm()">Cancel</button>
+                <button class="btn-primary" onclick="confirmDone()">Mark as done</button>
             </div>
         </div>
     </div>
 
-    <script src="js/app.js?v=2"></script>
+    <script src="js/app.js?v=6"></script>
 </body>
 </html>

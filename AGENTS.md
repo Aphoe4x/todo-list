@@ -13,7 +13,7 @@ no database and no build step. All data lives in the browser's `localStorage`.
 ## Tech Stack
 
 - **Frontend:** Vanilla JavaScript (ES6), HTML5, CSS3 with custom properties
-- **Icons:** Font Awesome 6.4 (CDN)
+- **Icons:** Inline SVG sprite (no CDN)
 - **Hosting:** Netlify (static)
 - **CI/CD:** GitHub Actions → Netlify
 
@@ -25,6 +25,9 @@ No frameworks, no bundler, no package dependencies. Do not introduce them.
 todo-list/
 ├── index.html                  # App shell: Tasks, Calendar, Board, Timer tabs
 ├── favicon.svg                 # App icon, referenced by index.html and README.md
+├── fonts/
+│   ├── geist-latin.woff2       # Self-hosted Geist (no third-party font CDN)
+│   └── geist-mono-latin.woff2
 ├── css/
 │   └── style.css               # All styles (light/dark themes, responsive)
 ├── js/

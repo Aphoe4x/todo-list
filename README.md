@@ -27,7 +27,7 @@ No build step, no framework, no backend — just HTML, CSS and vanilla JavaScrip
 | Markup | HTML5 |
 | Styling | CSS3 with custom properties (light/dark themes) |
 | Logic | Vanilla JavaScript (no dependencies) |
-| Icons | Font Awesome 6.4 |
+| Icons | Inline SVG sprite (no CDN) |
 | Hosting | Netlify (static) |
 
 ## Where the data lives
@@ -76,6 +76,9 @@ netlify deploy --prod --dir=dist
 todo-list/
 ├── index.html          # The whole app shell (Tasks, Calendar, Board, Timer)
 ├── favicon.svg         # App icon, used by the site and the README
+├── fonts/
+│   ├── geist-latin.woff2
+│   └── geist-mono-latin.woff2   # Self-hosted Geist, no third-party font CDN
 ├── css/
 │   └── style.css       # All styles, light + dark themes, responsive rules
 ├── js/
